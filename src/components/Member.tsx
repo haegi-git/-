@@ -1,5 +1,6 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import styled from "styled-components"
+import { memberType } from "../types/type"
 
 const Container = styled.div`
     display: flex;
@@ -13,20 +14,59 @@ const Container = styled.div`
         height: 100px;
         border: 1px solid black;
         display: flex;
-        >span{
-            width: 25%;
-        }
-        div{
+        box-sizing: border-box;
+        > div{
             width: 25%;
             border-left: 1px solid black;
         }
     }
 `
 
-const Member = () =>{
-    const [late,setLate] = useState<number>(0)
-    const [warning,setWarning] = useState<number>(0)
-    const [inactivity,setInactivity] = useState<number>(0)
+const NameBox = styled.div`
+    display: flex;
+    flex-direction: column;
+    >span{
+        margin-top: 15px;
+    }
+`
+
+const Box = styled.div`
+display: flex;
+flex-direction: column;
+justify-content: space-between;
+    p:first-child{
+        margin-top:8px;
+    }
+    p{
+        margin: 0;
+    }
+    button{
+        width: 50%;
+        display: inline-block;
+        background-color: #fff;
+        border: none;
+        border-top: 1px solid black;
+        height: 30px;
+        cursor: pointer;
+    }
+    button:last-child{
+        border-left: 1px solid black;
+    }
+`
+
+type MemberPropsType={
+    member:memberType,
+    updateMember:(member:memberType)=>void
+}
+
+export default function Member({member,updateMember}:MemberPropsType){
+    const [late,setLate] = useState<number>(member.late)
+    const [inactivity,setInactivity] = useState<number>(member.inactivity)
+    const [warning,setWarning] = useState<number>(member.warning)
+
+    useEffect(()=>{
+        updateMember({...member, late,inactivity,warning})
+    },[late,inactivity,warning])
 
     const handelCount = (count:string) =>{
         if(count === "late"){
@@ -37,35 +77,49 @@ const Member = () =>{
             setInactivity(inactivity + 1)
         }
     }
+    const handelCountDown = (count:string) =>{
+        if(count === "late"){
+            setLate(prevCount => prevCount - 1)
+        }else if(count === 'warning'){
+            setWarning(warning - 1)
+        }else if(count === 'inactivity'){
+            setInactivity(inactivity - 1)
+        }
+    }
     return(
         <Container>
             <div>
-                <div>
+                <NameBox>
                     <span>이름</span>
-                    <h1>머시기</h1>
-                </div>
-                <div>
+                    <h3>{member.name}</h3>
+                </NameBox>
+                <Box>
                     <p>지각</p>
                     <p>{late}</p>
+                    <div>
                     <button onClick={()=>handelCount('late')}>위</button>
-                    <button>아래</button>
-                </div>
+                    <button onClick={()=>handelCountDown('late')}>아래</button>
+                    </div>
+                </Box>
 
-                <div>
+                <Box>
                     <p>미활동</p>
                     <p>{inactivity}</p>
-                    <button onClick={()=>handelCount("inactivity")}>위</button>
-                    <button>아래</button>
-                </div>
+                    <div>
+                    <button onClick={()=>handelCount('inactivity')}>위</button>
+                    <button onClick={()=>handelCountDown('inactivity')}>아래</button>
+                    </div>
+                </Box>
 
-                <div>
+                <Box>
                     <p>경고</p>
                     <p>{warning}</p>
-                    <button onClick={()=>handelCount("warning")}>위</button>
-                    <button>아래</button>
-                </div>
+                    <div>
+                    <button onClick={()=>handelCount('warning')}>위</button>
+                    <button onClick={()=>handelCountDown('warning')}>아래</button>
+                    </div>
+                </Box>
             </div>
         </Container>
     )
 }
-export default Member
