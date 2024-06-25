@@ -1,7 +1,11 @@
 import { useState } from "react"
 import Add from "./Add"
 
-const Header = (addMember:()=>{})=>{
+type HeaderPropsType={
+    addMember: (member:string,e:React.FormEvent)=>void
+}
+
+export default function Header ({addMember}:HeaderPropsType) {
 
     const [add,setAdd] = useState<Boolean>(false)
 
@@ -14,9 +18,7 @@ const Header = (addMember:()=>{})=>{
             <header>모임원 관리</header>
             <button onClick={memberAdd}>모임원 추가</button>
 
-            {add === true ? <Add addMember={addMember}/> : <span>ㄴㄴ</span>}
+            {add === true ? <Add addMember={addMember}/> : null}
         </div>
     )
 }
-
-export default Header

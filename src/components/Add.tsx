@@ -11,29 +11,33 @@ const Container = styled.div`
     transform: translate(-50%,-50%);
 `
 
-const Add = (
-    addMember:()=>{}
-) =>{
+type AddPropsType = {
+    addMember: (member:string,e:React.FormEvent)=>void
+}
 
+export default function Add ({addMember}:AddPropsType){
     const [member,setMember] = useState<string>('')
 
     const handelInput = (e: React.ChangeEvent<HTMLInputElement>) =>{
         setMember(e.target.value)
         console.log(member)
     }
+
+    const handelSubmit = (e:React.FormEvent) => {
+        e.preventDefault()
+        addMember(member,e)
+    }
     return(
         <Container>
-            <form action="#">
+            <form onSubmit={handelSubmit} action="#">
                 <label htmlFor="#">이름</label>
                 <input
                   type="text"
                   placeholder="모임원 이름을 입력하세요."
                   value={member}
                   onChange={handelInput} />
-                <button onClick={addMember}>완료</button>
+                <button type="submit">생성</button>
             </form>
         </Container>
     )
 }
-
-export default Add
