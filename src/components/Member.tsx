@@ -55,6 +55,10 @@ export default function Member({member,updateMember}:MemberPropsType){
             setInactivity(inactivity - 1)
         }
     }
+
+    const toggleCause = () =>{
+        setCause(!cause)
+    }
     return(
         <Container>
         <GridContainer>
@@ -64,7 +68,7 @@ export default function Member({member,updateMember}:MemberPropsType){
                 </NameBox>
                 <MemberBox memberOption='지각' count={late} countUp={countUp} countDown={countDown}/>
                 <MemberBox memberOption='미활동' count={inactivity} countUp={countUp} countDown={countDown}/>
-                <MemberBox memberOption='경고' count={warning} countUp={countUp} countDown={countDown}/>
+                <MemberBox toggleCause={toggleCause} memberOption='경고' count={warning} countUp={countUp} countDown={countDown}/>
         </GridContainer>
         {cause === true ? <Cause MemberName={member.name}/> : null}
         </Container>

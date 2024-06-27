@@ -6,14 +6,22 @@ type CausePropsType = {
 
 const Container = styled.div`
     position: absolute;
-    background-color: bisque;
-    width: 700px;
-    height: 400px;
-    top:50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
+    background-color: rgba(0,0,0,0.7);
+    width: 100%;
+    height: 100%;
     z-index: 5;
     border-radius: 5px;
+    top:0;
+    left: 0%;
+    div{
+        width: 500px;
+        height: 300px;
+        background-color: beige;
+        position: absolute;
+        top:50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+    }
 `
 
 export default function Cause({
@@ -21,11 +29,12 @@ export default function Cause({
 }:CausePropsType){
     return(
         <Container>
-            <h3>{MemberName}님의 경고 사유</h3>
-
-            <ul>
-                <li>oooasdfsdfdfmlk</li>
-            </ul>
+            <div>
+                <h3>이름</h3>
+                <ul>
+                    <li>경고사유</li>
+                </ul>
+            </div>
         </Container>
     )
 }

@@ -9,16 +9,15 @@ export default function Header ({addMember}:HeaderPropsType) {
 
     const [add,setAdd] = useState<Boolean>(false)
 
-    const memberAdd = () =>{
+    const toggleAdd = () =>{
         setAdd(!add)
-        console.log(add)
     }
     return(
         <div>
             <header>모임원 관리</header>
-            <button onClick={memberAdd}>모임원 추가</button>
+            <button onClick={toggleAdd}>모임원 추가</button>
 
-            {add === true ? <Add addMember={addMember}/> : null}
+            {add === true ? <Add toggleAdd={toggleAdd} addMember={addMember}/> : null}
         </div>
     )
 }
