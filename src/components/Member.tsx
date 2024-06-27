@@ -1,25 +1,21 @@
 import { useEffect, useState } from "react"
 import styled from "styled-components"
-import { memberType } from "../types/type"
+import { MemberPropsType, memberType } from "../types/type"
+import Cause from "./Cause"
+import MemberBox from "./MemberBox"
 
 const Container = styled.div`
-    display: flex;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-    max-width: 1200px;
+    width: 80%;
     margin: auto;
-    > div{
-        width: 100%;
-        height: 100px;
-        border: 1px solid black;
-        display: flex;
-        box-sizing: border-box;
-        > div{
-            width: 25%;
-            border-left: 1px solid black;
-        }
-    }
+    margin-top: 15px;
+`
+
+const GridContainer = styled.div`
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    border: 1px solid black;
+    margin-bottom: 15px;
+    border-radius: 15px;
 `
 
 const NameBox = styled.div`
@@ -30,96 +26,47 @@ const NameBox = styled.div`
     }
 `
 
-const Box = styled.div`
-display: flex;
-flex-direction: column;
-justify-content: space-between;
-    p:first-child{
-        margin-top:8px;
-    }
-    p{
-        margin: 0;
-    }
-    button{
-        width: 50%;
-        display: inline-block;
-        background-color: #fff;
-        border: none;
-        border-top: 1px solid black;
-        height: 30px;
-        cursor: pointer;
-    }
-    button:last-child{
-        border-left: 1px solid black;
-    }
-`
-
-type MemberPropsType={
-    member:memberType,
-    updateMember:(member:memberType)=>void
-}
-
 export default function Member({member,updateMember}:MemberPropsType){
     const [late,setLate] = useState<number>(member.late)
     const [inactivity,setInactivity] = useState<number>(member.inactivity)
     const [warning,setWarning] = useState<number>(member.warning)
 
+    const[cause,setCause] = useState<Boolean>(false)
+
     useEffect(()=>{
         updateMember({...member, late,inactivity,warning})
     },[late,inactivity,warning])
 
-    const handelCount = (count:string) =>{
-        if(count === "late"){
+    const countUp = (count:string) =>{
+        if(count === "지각"){
             setLate(prevCount => prevCount + 1)
-        }else if(count === 'warning'){
+        }else if(count === "경고"){
             setWarning(warning + 1)
-        }else if(count === 'inactivity'){
+        }else if(count === "미활동"){
             setInactivity(inactivity + 1)
         }
     }
-    const handelCountDown = (count:string) =>{
-        if(count === "late"){
+    const countDown = (count:string) =>{
+        if(count === "지각"){
             setLate(prevCount => prevCount - 1)
-        }else if(count === 'warning'){
+        }else if(count === "경고"){
             setWarning(warning - 1)
-        }else if(count === 'inactivity'){
+        }else if(count === "미활동"){
             setInactivity(inactivity - 1)
         }
     }
     return(
         <Container>
-            <div>
+        <GridContainer>
                 <NameBox>
                     <span>이름</span>
                     <h3>{member.name}</h3>
                 </NameBox>
-                <Box>
-                    <p>지각</p>
-                    <p>{late}</p>
-                    <div>
-                    <button onClick={()=>handelCount('late')}>위</button>
-                    <button onClick={()=>handelCountDown('late')}>아래</button>
-                    </div>
-                </Box>
-
-                <Box>
-                    <p>미활동</p>
-                    <p>{inactivity}</p>
-                    <div>
-                    <button onClick={()=>handelCount('inactivity')}>위</button>
-                    <button onClick={()=>handelCountDown('inactivity')}>아래</button>
-                    </div>
-                </Box>
-
-                <Box>
-                    <p>경고</p>
-                    <p>{warning}</p>
-                    <div>
-                    <button onClick={()=>handelCount('warning')}>위</button>
-                    <button onClick={()=>handelCountDown('warning')}>아래</button>
-                    </div>
-                </Box>
-            </div>
+                <MemberBox memberOption='지각' count={late} countUp={countUp} countDown={countDown}/>
+                <MemberBox memberOption='미활동' count={inactivity} countUp={countUp} countDown={countDown}/>
+                <MemberBox memberOption='경고' count={warning} countUp={countUp} countDown={countDown}/>
+        </GridContainer>
+        {cause === true ? <Cause MemberName={member.name}/> : null}
         </Container>
     )
 }
