@@ -3,6 +3,7 @@ import styled from "styled-components"
 import { MemberPropsType, memberType } from "../types/type"
 import Cause from "./Cause"
 import MemberBox from "./MemberBox"
+import { Delete } from "./Delete"
 
 const Container = styled.div`
     width: 80%;
@@ -26,16 +27,19 @@ const NameBox = styled.div`
     }
 `
 
-export default function Member({member,updateMember}:MemberPropsType){
+export default function Member({member,updateMember,deleteButton}:MemberPropsType){
     const [late,setLate] = useState<number>(member.late)
     const [inactivity,setInactivity] = useState<number>(member.inactivity)
     const [warning,setWarning] = useState<number>(member.warning)
+    const [warningCause,setWarningCause] = useState<string[]>(member.warningCause)
 
-    const[cause,setCause] = useState<Boolean>(false)
+    const [cause,setCause] = useState<Boolean>(false)
+    const [deletePopup,setDeletePopup] = useState<Boolean>(false)
 
     useEffect(()=>{
-        updateMember({...member, late,inactivity,warning})
-    },[late,inactivity,warning])
+        const updatedMember = {...member,late,inactivity,warning,warningCause}
+        updateMember(updatedMember)
+    },[late,inactivity,warning,warningCause])
 
     const countUp = (count:string) =>{
         if(count === "지각"){
@@ -56,21 +60,36 @@ export default function Member({member,updateMember}:MemberPropsType){
         }
     }
 
+    const causeAdd = (newcause:string,e:React.FormEvent)=>{
+        e.preventDefault()
+        const addItem = [...warningCause,newcause]
+        setWarningCause(addItem)
+    }
+
     const toggleCause = () =>{
         setCause(!cause)
     }
+    const toggleDelete = () =>{
+        setDeletePopup(!deletePopup)
+    }
+
     return(
         <Container>
         <GridContainer>
                 <NameBox>
                     <span>이름</span>
-                    <h3>{member.name}</h3>
+                    <h3 onClick={toggleDelete}>{member.name}</h3>
                 </NameBox>
                 <MemberBox memberOption='지각' count={late} countUp={countUp} countDown={countDown}/>
                 <MemberBox memberOption='미활동' count={inactivity} countUp={countUp} countDown={countDown}/>
                 <MemberBox toggleCause={toggleCause} memberOption='경고' count={warning} countUp={countUp} countDown={countDown}/>
         </GridContainer>
-        {cause === true ? <Cause MemberName={member.name}/> : null}
+        {cause === true ? <Cause causeAdd={causeAdd} member={member} toggleCause={toggleCause} MemberName={member.name}/> : null}
+        {deletePopup === true ?
+        <Delete
+         deleteButton={deleteButton}
+          memberName={member.name}
+          toggleDelete={toggleDelete}/> : null}
         </Container>
     )
 }
