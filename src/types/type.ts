@@ -30,7 +30,8 @@ export type CausePropsType = {
     MemberName:string,
     toggleCause:()=>void,
     member:memberType,
-    causeAdd:(newcause:string,e:React.FormEvent)=>void
+    causeAdd:(newcause:string,e:React.FormEvent)=>void,
+    cause:boolean
 }
 
 export type DeletePropsType = {
