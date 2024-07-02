@@ -2,7 +2,7 @@ import styled from "styled-components"
 import { CausePropsType } from "../types/type"
 import { Close, FormInInput } from "../styled/styled"
 import { handelInput } from "../utils/handelInput"
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 const Container = styled.div`
     position: absolute;
@@ -25,7 +25,7 @@ const CauseList = styled.div`
     left:50%;
     width: 30%;
     height: 30%;
-    background-color: azure;
+    background-color: #E7EB90;
     border-radius: 15px;
     transform: translate(-50%, 0);
     ul{
@@ -41,8 +41,17 @@ export default function Cause({
     MemberName,
     toggleCause,
     causeAdd,
-    member
+    member,
+    cause
 }:CausePropsType){
+
+    const inputRef = useRef<HTMLInputElement | null>(null)
+
+    useEffect(()=>{
+        if(cause && inputRef.current){
+            inputRef.current.focus();
+        }
+    },[cause])
 
     const [causeVal,setCauseVal] = useState<string>('')
 
@@ -58,6 +67,7 @@ export default function Cause({
             </CauseList>
             <FormInInput onSubmit={(e)=>{causeAdd(causeVal,e)}}>
                 <input type="text"
+                ref={inputRef}
                 value={causeVal}
                 onChange={(e)=>{handelInput(setCauseVal,e)}}/>
                 <button type="submit">작성</button>

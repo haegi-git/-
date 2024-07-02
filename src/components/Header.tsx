@@ -9,7 +9,6 @@ type HeaderPropsType={
 const Container = styled.div`
     header{
         margin-top: 15px;
-        margin-bottom: 15px;
     }
     button{
         width: 100px;

@@ -33,7 +33,7 @@ export default function Member({member,updateMember,deleteButton}:MemberPropsTyp
     const [warning,setWarning] = useState<number>(member.warning)
     const [warningCause,setWarningCause] = useState<string[]>(member.warningCause)
 
-    const [cause,setCause] = useState<Boolean>(false)
+    const [cause,setCause] = useState<boolean>(false)
     const [deletePopup,setDeletePopup] = useState<Boolean>(false)
 
     useEffect(()=>{
@@ -84,7 +84,12 @@ export default function Member({member,updateMember,deleteButton}:MemberPropsTyp
                 <MemberBox memberOption='미활동' count={inactivity} countUp={countUp} countDown={countDown}/>
                 <MemberBox toggleCause={toggleCause} memberOption='경고' count={warning} countUp={countUp} countDown={countDown}/>
         </GridContainer>
-        {cause === true ? <Cause causeAdd={causeAdd} member={member} toggleCause={toggleCause} MemberName={member.name}/> : null}
+        {cause === true ? <Cause
+        causeAdd={causeAdd}
+        member={member}
+        toggleCause={toggleCause}
+        MemberName={member.name}
+        cause={cause}/> : null}
         {deletePopup === true ?
         <Delete
          deleteButton={deleteButton}
