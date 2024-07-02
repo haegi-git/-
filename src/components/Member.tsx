@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import styled from "styled-components"
-import { MemberPropsType, memberType } from "../types/type"
+import { MemberPropsType } from "../types/type"
 import Cause from "./Cause"
 import MemberBox from "./MemberBox"
 import { Delete } from "./Delete"
@@ -14,7 +14,7 @@ const Container = styled.div`
 const GridContainer = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
-    border: 1px solid black;
+    border: 1px solid #632B30;
     margin-bottom: 15px;
     border-radius: 15px;
 `

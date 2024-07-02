@@ -2,25 +2,25 @@ import styled, { css } from "styled-components"
 import { MemberBoxPropsType } from "../types/type"
 
 const Container = styled.div`
-    border-left: 1px solid black;
+    border-left: 1px solid #632B30;
     position: relative;
 `
 
 
-const Button = styled.button<{isWarning?: boolean}>`
+const Button = styled.button<{$isWarning?: boolean}>`
     width: 50%;
-    background-color: beige;
+    background-color: #E7EB90;
     border: none;
-    border-top: 1px solid black;
+    border-top: 1px solid #632B30;
     cursor: pointer;
     @media screen and (max-width:800px) {
         font-size:12px
     }
     &:last-child{
-        border-left: 1px solid black;
+        border-left: 1px solid #632B30;
     }
     ${(props)=>
-        props.isWarning && css `
+        props.$isWarning && css `
             border-bottom-right-radius: 15px
         `
     }
@@ -42,13 +42,13 @@ export default function MemberBox({
 
     return(
         <Container>
-            
+
                 {isWarning ? <WarningP onClick={toggleCause}>{memberOption}</WarningP> : <p>{memberOption}</p>}
-            
+
                     <p>{count}</p>
                     <div>
                     <Button onClick={()=>countUp(memberOption)}>위</Button>
-                    <Button isWarning={isWarning} onClick={()=>countDown(memberOption)}>아래</Button>
+                    <Button $isWarning={isWarning} onClick={()=>countDown(memberOption)}>아래</Button>
                     </div>
         </Container>
     )
