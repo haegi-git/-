@@ -22,7 +22,8 @@ export type MemberPropsType={
 
 export type AddPropsType = {
     addMember: (member:string,e:React.FormEvent)=>void,
-    toggleAdd:()=>void
+    toggleAdd:()=>void,
+    add:boolean
 }
 
 export type CausePropsType = {

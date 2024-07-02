@@ -39,6 +39,7 @@ function App() {
 
         setMembers(deleteMembers)
         localStorage.setItem('members',JSON.stringify(deleteMembers))
+        console.log(members)
   }
 
   const updateMember = (updatedMember:memberType) => {
@@ -51,8 +52,8 @@ function App() {
   return (
     <Container>
       <Header addMember={addMember}/>
-      {members.map((member,index)=>
-        <Member key={index}
+      {members.map((member)=>
+        <Member key={member.name}
         member={member}
         updateMember={updateMember}
         deleteButton={deleteButton}
