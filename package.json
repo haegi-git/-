@@ -26,7 +26,7 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
-  "homepage":"https://haegi-git.github.io/Membership-Management-Project/",
+  "homepage": "https://haegi-git.github.io/Membership-Management-Project/",
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -49,5 +49,9 @@
     "@swc/plugin-styled-components": "^2.0.8",
     "@types/styled-components": "^5.1.34",
     "gh-pages": "^6.1.1"
-  }
+  },
+  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
+  "main": "index.js",
+  "author": "",
+  "license": "ISC"
 }
